@@ -1,4 +1,5 @@
-#School project, web programming 1
+
+# School project, web programming 1
 
 This is a simple project meant to showcase basic understanding of JavaScript.
 here's a simplified todo list:
