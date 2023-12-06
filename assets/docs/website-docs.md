@@ -12,4 +12,9 @@ Best documentation can be viewed [here](https://docs.github.com/en/pages/getting
 Things we do for projects:
  - add gitignore for nodemodules and other unnecessary files
  - Click Initialize Repository in VSCode (or do it manually to feel like 5up3r l33t h4x0r)
- - 
+ - continue with the first commit, just click the blue button a few more times
+ - Open repository on github, go to settings, pages, change branch to main, wait for github to process the repo 
+
+### Dynamic Content from JS
+
+While real world example would use AJAX and an actual database here we must do with just an array and some copy pasted html
