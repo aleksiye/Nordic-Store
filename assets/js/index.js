@@ -2,20 +2,19 @@
 // Not using it simplifes the project and reduces the time required to make it. Less JSON api calls means earlier completion and less debugging
 
 const storeItems = [
-    {name: "Blue Mug with a Saucer",        price: 39.99,    imgSm: "mug-saucer.avif"},
-    {name: "Decorative Soviet Camera Lens", price: 91.12,    imgSm: "camera-lens-old.avif"},
-    {name: "Minimalist Molded Armchair",    price: 499.00,   imgSm: "chair-minimalist.avif"},
-    {name: "Antique Typewriter",            price: 199.00,   imgSm: "typewriter-antique.avif"},
-    {name: "Steel Cocktail Shaker",         price: 12.99,    imgSm: "cup-steel.avif"},
-    {name: "Coffee Mug with Wooden Base",   price: 19.99,    imgSm: "mug-coffee.avif"},
-    {name: "Jade Spinner",                  price: 75.99,    imgSm: "spinner-gyro.avif"},
-    {name: "Glass Dice",                    price: 9.99,     imgSm: "dice.avif"},
+    {id:"0", name: "Blue Mug with a Saucer",        price: 39.99,  category:"personal",  imgSm: "mug-saucer.avif"},
+    {id:"1", name: "Decorative Soviet Camera Lens", price: 91.12,  category:"decour",    imgSm: "camera-lens-old.avif"},
+    {id:"2", name: "Minimalist Molded Armchair",    price: 499.00, category:"furniture", imgSm: "chair-minimalist.avif"},
+    {id:"3", name: "Antique Typewriter",            price: 199.00, category:"decour",    imgSm: "typewriter-antique.avif"},
+    {id:"4", name: "Steel Cocktail Shaker",         price: 12.99,  category:"personal",  imgSm: "cup-steel.avif"},
+    {id:"5", name: "Coffee Mug with Wooden Base",   price: 19.99,  category:"personal",  imgSm: "mug-coffee.avif"},
+    {id:"6", name: "Jade Spinner",                  price: 75.99,  category:"decour",    imgSm: "spinner-gyro.avif"},
+    {id:"7", name: "Glass Dice",                    price: 9.99,   category:"misc",      imgSm: "dice.avif"},
 ];
 function printStoreData(data){
     const store = document.getElementById("store");
     for(item of data){
-        let html = `<div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
-    <a href="#">
+        let html = `<div id="product-${item.id}" class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col" data-category="${item.category}" data-price="${item.price}">
         <img class="hover:grow hover:shadow-lg" src="./assets/img/${item.imgSm}">
         <div class="pt-3 flex items-center justify-between">
             <p class="">${item.name}</p>
@@ -24,7 +23,6 @@ function printStoreData(data){
             </svg>
         </div>
         <p class="pt-1 text-gray-900">${item.price}€</p>
-    </a>
     </div>`;
     store.insertAdjacentHTML("beforeend",html);
     }
