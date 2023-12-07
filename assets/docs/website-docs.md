@@ -18,3 +18,24 @@ Things we do for projects:
 ### Dynamic Content from JS
 
 While real world example would use AJAX and an actual database here we must do with just an array and some copy pasted html
+it should look something like this: 
+```javascript
+    function printStoreData(data){
+    const store = document.getElementById("store");
+    let html;
+    for(item of data){
+        html += `<example-html-tag exampleAttribute="${item.exampleProperty}">${item.exampleContent}</example-html-tag>`
+    }
+    store.insertAdjacentHTML("beforeend",html);
+}
+```
+This makes our html code much more manageable because we don't repeat anything.
+
+### Filtering Content
+
+
+### Searching Content
+
+
+### Form Validation
+

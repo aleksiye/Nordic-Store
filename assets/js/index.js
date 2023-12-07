@@ -13,8 +13,9 @@ const storeItems = [
 ];
 function printStoreData(data){
     const store = document.getElementById("store");
+    let html="";
     for(item of data){
-        let html = `<div id="product-${item.id}" class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col" data-category="${item.category}" data-price="${item.price}">
+        html += `<div id="product-${item.id}" class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col" data-category="${item.category}" data-price="${item.price}">
         <img class="hover:grow hover:shadow-lg" src="./assets/img/${item.imgSm}">
         <div class="pt-3 flex items-center justify-between">
             <p class="">${item.name}</p>
@@ -24,8 +25,8 @@ function printStoreData(data){
         </div>
         <p class="pt-1 text-gray-900">${item.price}€</p>
     </div>`;
-    store.insertAdjacentHTML("beforeend",html);
     }
+    store.insertAdjacentHTML("beforeend",html);
 }
 
 window.addEventListener('load',function(){
