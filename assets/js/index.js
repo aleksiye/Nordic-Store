@@ -64,7 +64,8 @@ function decreaseQuantity(){
     }
 }
 function successfullyRemoved(id){
-    $(`#product-wrapper-${id}`).on( "mouseenter", storeItemMouseInHandler).on( "mouseleave", storeItemMouseOutHandler);
+    $(`#card-banner-${id}`).text("Add to cart");
+    $(`#card-banner-${id}`).removeClass(["text-green-500", "font-semibold", "underline"]);
 }
 function removeItem(callingElement){
     let id = callingElement.id.match(/\d+/);
@@ -75,7 +76,8 @@ function removeItem(callingElement){
     successfullyRemoved(id)
 }
 function successfullyAdded(id){
-    $(`#product-wrapper-${id}`).unbind('mouseenter');
+    $(`#card-banner-${id}`).text("Successfully added to cart");
+    $(`#card-banner-${id}`).addClass(["text-green-500", "font-semibold", "underline"]);
 }
 function addToCart(id){
     item = storeItems[id];
