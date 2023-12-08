@@ -131,5 +131,7 @@ window.addEventListener('load',function(){
         $('#cart-wrapper').children().toggleClass("end-full inset-0");
         $($('#cart-wrapper').children()[1]).children().toggleClass("end-full inset-0");
         $('#cart').toggleClass("translate-x-full translate-x-0");
+        $('#filter-toggle').fadeToggle(100);
+        $('#search-toggle').fadeToggle(100);
     });
 })
