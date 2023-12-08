@@ -73,7 +73,9 @@ Also, create input.css and output.css files and put this into input.css file:
 ```
 Now we're ready to start coding, simply execute 
 
-```npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch```
+```shell
+npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch
+```
 
 this will countinously check for changes in input.css as well as all files referenced under content: inside our tailwind.config file
 
