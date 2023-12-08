@@ -75,7 +75,7 @@ function removeItem(callingElement){
     successfullyRemoved(id)
 }
 function successfullyAdded(id){
-    $(`#product-wrapper-${id}`).unbind('mouseenter mouseleave');
+    $(`#product-wrapper-${id}`).unbind('mouseenter');
 }
 function addToCart(id){
     item = storeItems[id];
