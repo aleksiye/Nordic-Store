@@ -18,7 +18,7 @@ function printStoreData(data){
     for(item of data){
         html += `<div id="product-${item.id}" class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col" data-category="${item.category}" data-price="${item.price}">
         <button id="product-wrapper-${item.id}" class="product-wrapper relative" type="button">
-        <div id="cart-banner-${item.id}" class="hidden relative w-{0.5} flex justify-center left-{0.5} top-5 z-10 h-0"><p class="text-center">Add to cart</p></div>
+        <div id="card-banner-${item.id}" class="hidden relative w-{0.5} flex justify-center left-{0.5} top-5 z-10 h-0"><p class="text-center">Add to cart</p></div>
         <img class="hover:grow hover:shadow-lg" src="./assets/img/${item.imgSm}" data-purchaseable="true">
         </button>
         <div class="pt-3 flex items-center justify-between">
@@ -63,9 +63,19 @@ function decreaseQuantity(){
         decreaseTotal($(this).data("price"));
     }
 }
+function successfullyRemoved(id){
+    $(`#product-wrapper-${id}`).on( "mouseenter", storeItemMouseInHandler).on( "mouseleave", storeItemMouseOutHandler);
+}
 function removeItem(callingElement){
-    const elementToRemove = document.getElementById(`cart-product-${callingElement.id.match(/\d+/)}`)
+    let id = callingElement.id.match(/\d+/);
+    const elementToRemove = document.getElementById(`cart-product-${id}`)
+    const quantityOfElement = document.getElementById(`cart-item-${id}-quantity`).textContent.match(/\d+/);
+    decreaseTotal($(callingElement).data("price") * quantityOfElement);
     elementToRemove.remove();
+    successfullyRemoved(id)
+}
+function successfullyAdded(id){
+    $(`#product-wrapper-${id}`).unbind('mouseenter mouseleave');
 }
 function addToCart(id){
     item = storeItems[id];
@@ -89,7 +99,7 @@ function addToCart(id){
       <button type="button" id="decrease-item-${item.id}" data-price="${item.price}">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
-        </svg></button><p class="text-gray-500">Qty 1</p><button type="button" id="increase-item-${item.id}" data-price="${item.price}">
+        </svg></button><p id="cart-item-${item.id}-quantity" class="text-gray-500">Qty 1</p><button type="button" id="increase-item-${item.id}" data-price="${item.price}">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
         </svg>                                          
@@ -104,25 +114,25 @@ function addToCart(id){
     $(`#increase-item-${item.id}`).click(increaseQuantity);
     $(`#decrease-item-${item.id}`).click(decreaseQuantity);
     $(`#remove-item-${item.id}`).click(function(){
-        decreaseTotal($(this).data("price"));
         removeItem(this);
     });
+    successfullyAdded(item.id);
     }
 }
 
 
 
 function storeItemMouseInHandler (){
-    $(`#cart-banner-${this.id.slice(-1)}`).fadeIn(200);
+    $(`#card-banner-${this.id.match(/\d+/)}`).fadeIn(200);
 }
 function storeItemMouseOutHandler (){
-    $(`#cart-banner-${this.id.slice(-1)}`).fadeOut(100);
+    $(`#card-banner-${this.id.match(/\d+/)}`).fadeOut(100);
 }
 
 window.addEventListener('load',function(){
     printStoreData(storeItems);
     
-    $(`.product-wrapper`).hover(storeItemMouseInHandler, storeItemMouseOutHandler);
+    $(`.product-wrapper`).on( "mouseenter", storeItemMouseInHandler).on( "mouseleave", storeItemMouseOutHandler);
     $('.product-wrapper').click(function(){
         addToCart(this.id.slice(-1));
     })
