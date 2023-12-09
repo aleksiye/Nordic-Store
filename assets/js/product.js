@@ -66,7 +66,7 @@ function fetchProductDescription(descriptionId) {
                             <span class="m-auto text-2xl font-thin">-</span>
                         </button>
                         <input type="text" inputmode="numeric" readonly="readonly"
-                            class="flex items-center w-full font-semibold text-center text-gray-700 placeholder-gray-700 bg-gray-300 outline-none  focus:outline-none text-md hover:text-black"
+                            class="flex items-center border-none w-full font-semibold text-center text-gray-700 placeholder-gray-700 bg-gray-300 outline-none  focus:outline-none text-md hover:text-black"
                             placeholder="1">
                         <button
                             class="w-20 h-full text-gray-600 bg-gray-300 rounded-r outline-none cursor-pointer hover:text-gray-700 hover:bg-gray-400">
