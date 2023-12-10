@@ -12,6 +12,8 @@ const storeItems = [
     {id:"7", name: "Glass Dice",                    price: 9.99,   category:"misc",      img: "dice"                },
 ];
 
+var numberOfItemsInCart = 0;
+
 function printStoreData(data){
     const store = document.getElementById("store");
     let html="";
@@ -99,6 +101,10 @@ function decreaseQuantity(){
 function successfullyRemoved(id){
     $(`#card-banner-${id}`).text("Add to cart");
     $(`#card-banner-${id}`).removeClass(["text-green-500", "font-semibold", "underline"]);
+    numberOfItemsInCart--
+    if(numberOfItemsInCart == 0){
+        toggleCartPing();
+    }
 }
 function removeItem(callingElement){
     let id = callingElement.id.match(/\d+/);
@@ -108,9 +114,26 @@ function removeItem(callingElement){
     elementToRemove.remove();
     successfullyRemoved(id)
 }
+function toggleCartPing(){
+    const cartPing = document.getElementById("cart-ping");
+    if(!cartPing){
+        document.getElementById("cart-toggle").insertAdjacentHTML("afterbegin",`<span id="cart-ping" class="absolute -top-0.5 -right-1 flex h-3 w-3">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+      </span>`);
+    }
+    else{
+        cartPing.remove();
+    }
+
+}
 function successfullyAdded(id){
     $(`#card-banner-${id}`).text("Successfully added to cart");
     $(`#card-banner-${id}`).addClass(["text-green-500", "font-semibold", "underline"]);
+    if(numberOfItemsInCart == 0){
+        toggleCartPing();
+    }
+    numberOfItemsInCart++
 }
 function addToCart(id){
     item = storeItems[id];
