@@ -43,14 +43,14 @@ function attachLikeEvent(data){
           </svg>
           `);
           $(this).data("is-alternate", true);
-          //Call like state change handler here, probably log it into database
+          //Call "like" state change handler here, probably log it into cookies or db
             }
             else{
                 $(this).html(`<svg class="h-6 w-6 fill-current text-gray-500 hover:text-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path d="M12,4.595c-1.104-1.006-2.512-1.558-3.996-1.558c-1.578,0-3.072,0.623-4.213,1.758c-2.353,2.363-2.352,6.059,0.002,8.412 l7.332,7.332c0.17,0.299,0.498,0.492,0.875,0.492c0.322,0,0.609-0.163,0.792-0.409l7.415-7.415 c2.354-2.354,2.354-6.049-0.002-8.416c-1.137-1.131-2.631-1.754-4.209-1.754C14.513,3.037,13.104,3.589,12,4.595z M18.791,6.205 c1.563,1.571,1.564,4.025,0.002,5.588L12,18.586l-6.793-6.793C3.645,10.23,3.646,7.776,5.205,6.209 c0.76-0.756,1.754-1.172,2.799-1.172s2.035,0.416,2.789,1.17l0.5,0.5c0.391,0.391,1.023,0.391,1.414,0l0.5-0.5 C14.719,4.698,17.281,4.702,18.791,6.205z" />
             </svg>`);
             $(this).data("is-alternate", false);
-            //Call like state change handler here, probably log it into database
+            //Call "like" state change handler here, probably log it into cookies or db
             }
         })
     }
@@ -177,8 +177,138 @@ function addToCart(id){
     successfullyAdded(item.id);
     }
 }
+var passwordOK = false;
+var emailOK = false;
+function isBothTrue(){
+    if(emailOK && passwordOK){
+        const login = document.getElementById("login")
+        login.removeAttribute("disabled");
+        login.classList.remove("bg-blue-500");
+        login.classList.add("bg-blue-700")
+    }
+    return false;
+}
 
+function validatePassword(){
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[`!@#$%^&*()-=_+\[\]\{\}\\|,.<>\/?]).{8,255}$/;
+    const noJSRegex = /\b(?:eval|alert|prompt|confirm|setTimeout|setInterval|XMLHttpRequest|document\.write)\b/g;
+    const noSqlRegex = /\b(?:SELECT|INSERT|UPDATE|DELETE|DROP|UNION|CREATE|ALTER|EXEC|INTO|FROM|WHERE)\b/gi;
+    let isPassword = passwordRegex.test(this.value);
+    let isSql = noSqlRegex.test(this.value);
+    let isJS = noJSRegex.test(this.value);
+    const passwordInputLabel = this.previousElementSibling;
+    if(isPassword && !isSql && !isJS){
+        passwordInputLabel.textContent = "Your Password is valid.";
+        passwordInputLabel.classList.remove("text-gray-900");
+        passwordInputLabel.classList.remove("text-red-500");
+        passwordInputLabel.classList.add("text-green-500");
+        isBothTrue();
+        return true;
+    }
+    else if (!isPassword){
+        passwordInputLabel.textContent = "Your Password must contain at least one small letter, one capital letter, one number and one special character";
+        passwordInputLabel.classList.remove("text-gray-900");
+        passwordInputLabel.classList.remove("text-green-500");
+        passwordInputLabel.classList.add("text-red-500");
+        return false;
+    }
+    else if (isSql){
+        passwordInputLabel.textContent = "Your Password musut not contain SQL.";
+        passwordInputLabel.classList.remove("text-gray-900");
+        passwordInputLabel.classList.remove("text-green-500");
+        passwordInputLabel.classList.add("text-red-500");
+        return false;
+    }
+    else if (isJS){
+        passwordInputLabel.textContent = "Your Password musut not contain JavaScript.";
+        passwordInputLabel.classList.remove("text-gray-900");
+        passwordInputLabel.classList.remove("text-green-500");
+        passwordInputLabel.classList.add("text-red-500");
+        return false;
+    }
+}
 
+function validateEmail(event){
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    const noJSRegex = /\b(?:eval|alert|prompt|confirm|setTimeout|setInterval|XMLHttpRequest|document\.write)\b/g;
+    const noSqlRegex = /\b(?:SELECT|INSERT|UPDATE|DELETE|DROP|UNION|CREATE|ALTER|EXEC|INTO|FROM|WHERE)\b/gi;
+    let isEmail = emailRegex.test(this.value);
+    let isSql = noSqlRegex.test(this.value);
+    let isJS = noJSRegex.test(this.value);
+    const emailInputLabel = this.previousElementSibling;
+    console.log(emailInputLabel);
+    if(isEmail && !isSql && !isJS){
+        emailInputLabel.textContent = "Your Email is valid.";
+        emailInputLabel.classList.remove("text-gray-900");
+        emailInputLabel.classList.remove("text-red-500");
+        emailInputLabel.classList.add("text-green-500");
+        isBothTrue();
+        return true;
+    }
+    else if (!isEmail){
+        emailInputLabel.textContent = "Your Email is not a valid email address.";
+        emailInputLabel.classList.remove("text-gray-900");
+        emailInputLabel.classList.remove("text-green-500");
+        emailInputLabel.classList.add("text-red-500");
+        return false;
+    }
+    else if (isSql){
+        emailInputLabel.textContent = "Your Email musut not contain SQL.";
+        emailInputLabel.classList.remove("text-gray-900");
+        emailInputLabel.classList.add("text-red-500");
+        return false;
+    }
+    else if (isJS){
+        emailInputLabel.textContent = "Your Email musut not contain JavaScript.";
+        emailInputLabel.classList.remove("text-gray-900");
+        emailInputLabel.classList.remove("text-green-500");
+        emailInputLabel.classList.add("text-red-500");
+        return false;
+    }
+}
+var usernameOK = false;
+function validateUsername(){
+    const usernameRegex = /^[a-zA-Z0-9_]{3,255}$/g
+    const noJSRegex = /\b(?:eval|alert|prompt|confirm|setTimeout|setInterval|XMLHttpRequest|document\.write)\b/g;
+    const noSqlRegex = /\b(?:SELECT|INSERT|UPDATE|DELETE|DROP|UNION|CREATE|ALTER|EXEC|INTO|FROM|WHERE)\b/gi;
+    let isUsername = usernameRegex.test(this.value);
+    let isSql = noSqlRegex.test(this.value);
+    let isJS = noJSRegex.test(this.value);
+    const usernameInputLabel = this.previousElementSibling;
+    if (isUsername && !isSql && !isJS){
+        usernameInputLabel.textContent = "Your username is valid.";
+        usernameInputLabel.classList.remove("text-gray-900");
+        usernameInputLabel.classList.remove("text-red-500");
+        usernameInputLabel.classList.add("text-green-500");
+        isAllTrue();
+        return true;
+    }
+    else if (!isUsername){
+        usernameInputLabel.textContent = "Your username can only contain aplhanumeric characters and underscore ";
+        usernameInputLabel.classList.remove("text-gray-900");
+        usernameInputLabel.classList.remove("text-green-500");
+        usernameInputLabel.classList.add("text-red-500");
+        return false;
+    }
+    else if (isSql){
+        usernameInputLabel.textContent = "Your username musut not contain SQL.";
+        usernameInputLabel.classList.remove("text-gray-900");
+        usernameInputLabel.classList.add("text-red-500");
+        return false;
+    }
+    else if (isJS){
+        usernameInputLabel.textContent = "Your usuername musut not contain JavaScript.";
+        usernameInputLabel.classList.remove("text-gray-900");
+        usernameInputLabel.classList.remove("text-green-500");
+        usernameInputLabel.classList.add("text-red-500");
+        return false;
+    }
+}
+
+function togglePasswordVisibility(){
+    const passField = document.getElementById("password");
+    this.checked ? passField.setAttribute("type","text") : passField.setAttribute("type","password")
+}
 
 function storeItemMouseInHandler (){
     $(`#card-banner-${this.id.match(/\d+/)}`).fadeIn(200);
@@ -201,7 +331,21 @@ window.addEventListener('load',function(){
         $($('#cart-wrapper').children()[1]).children().toggleClass("end-full inset-0");
         $('#cart').toggleClass("translate-x-full translate-x-0");
     });
-    $(".login-toggle").on("click", function(){
+    $("#login-toggle").on("click", function(){
         $("#login-modal").slideToggle(300);
+    })
+    $('#close-login').on('click', function(){
+        $("#login-modal").slideToggle(300);
+    })
+    this.document.querySelector("#email").addEventListener('change',function(){emailOK=validateEmail()});
+    this.document.querySelector("#password").addEventListener('change',function(){passwordOK=validatePassword()});
+    this.document.querySelector("#show-password").addEventListener('change', togglePasswordVisibility);
+    $("#register-toggle").on('click', function(event){
+        event.preventDefault();
+        document.getElementById("login-toggle").click();
+        $('#register-modal').slideToggle(300);
+    })
+    $('#close-register').on("click", function(){
+        $('#register-modal').slideToggle(300);
     })
 })
