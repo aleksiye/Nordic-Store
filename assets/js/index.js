@@ -189,14 +189,14 @@ function isBothTrue(){
     return false;
 }
 
-function validatePassword(){
+function validatePassword(element){
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[`!@#$%^&*()-=_+\[\]\{\}\\|,.<>\/?]).{8,255}$/;
     const noJSRegex = /\b(?:eval|alert|prompt|confirm|setTimeout|setInterval|XMLHttpRequest|document\.write)\b/g;
     const noSqlRegex = /\b(?:SELECT|INSERT|UPDATE|DELETE|DROP|UNION|CREATE|ALTER|EXEC|INTO|FROM|WHERE)\b/gi;
-    let isPassword = passwordRegex.test(this.value);
-    let isSql = noSqlRegex.test(this.value);
-    let isJS = noJSRegex.test(this.value);
-    const passwordInputLabel = this.previousElementSibling;
+    let isPassword = passwordRegex.test(element.value);
+    let isSql = noSqlRegex.test(element.value);
+    let isJS = noJSRegex.test(element.value);
+    const passwordInputLabel = element.previousElementSibling;
     if(isPassword && !isSql && !isJS){
         passwordInputLabel.textContent = "Your Password is valid.";
         passwordInputLabel.classList.remove("text-gray-900");
@@ -228,14 +228,14 @@ function validatePassword(){
     }
 }
 
-function validateEmail(event){
+function validateEmail(element){
     const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     const noJSRegex = /\b(?:eval|alert|prompt|confirm|setTimeout|setInterval|XMLHttpRequest|document\.write)\b/g;
     const noSqlRegex = /\b(?:SELECT|INSERT|UPDATE|DELETE|DROP|UNION|CREATE|ALTER|EXEC|INTO|FROM|WHERE)\b/gi;
-    let isEmail = emailRegex.test(this.value);
-    let isSql = noSqlRegex.test(this.value);
-    let isJS = noJSRegex.test(this.value);
-    const emailInputLabel = this.previousElementSibling;
+    let isEmail = emailRegex.test(element.value);
+    let isSql = noSqlRegex.test(element.value);
+    let isJS = noJSRegex.test(element.value);
+    const emailInputLabel = element.previousElementSibling;
     console.log(emailInputLabel);
     if(isEmail && !isSql && !isJS){
         emailInputLabel.textContent = "Your Email is valid.";
@@ -267,14 +267,14 @@ function validateEmail(event){
     }
 }
 var usernameOK = false;
-function validateUsername(){
+function validateUsername(element){
     const usernameRegex = /^[a-zA-Z0-9_]{3,255}$/g
     const noJSRegex = /\b(?:eval|alert|prompt|confirm|setTimeout|setInterval|XMLHttpRequest|document\.write)\b/g;
     const noSqlRegex = /\b(?:SELECT|INSERT|UPDATE|DELETE|DROP|UNION|CREATE|ALTER|EXEC|INTO|FROM|WHERE)\b/gi;
-    let isUsername = usernameRegex.test(this.value);
-    let isSql = noSqlRegex.test(this.value);
-    let isJS = noJSRegex.test(this.value);
-    const usernameInputLabel = this.previousElementSibling;
+    let isUsername = usernameRegex.test(element.value);
+    let isSql = noSqlRegex.test(element.value);
+    let isJS = noJSRegex.test(element.value);
+    const usernameInputLabel = element.previousElementSibling;
     if (isUsername && !isSql && !isJS){
         usernameInputLabel.textContent = "Your username is valid.";
         usernameInputLabel.classList.remove("text-gray-900");
@@ -337,8 +337,8 @@ window.addEventListener('load',function(){
     $('#close-login').on('click', function(){
         $("#login-modal").slideToggle(300);
     })
-    this.document.querySelector("#email").addEventListener('change',function(){emailOK=validateEmail()});
-    this.document.querySelector("#password").addEventListener('change',function(){passwordOK=validatePassword()});
+    this.document.querySelector("#email").addEventListener('change',function(){emailOK=validateEmail(this)});
+    this.document.querySelector("#password").addEventListener('change',function(){passwordOK=validatePassword(this)});
     this.document.querySelector("#show-password").addEventListener('change', togglePasswordVisibility);
     $("#register-toggle").on('click', function(event){
         event.preventDefault();
@@ -347,5 +347,10 @@ window.addEventListener('load',function(){
     })
     $('#close-register').on("click", function(){
         $('#register-modal').slideToggle(300);
+    })
+    $("#two-in-one").on("click", function(e){
+        e.preventDefault();
+        window.open("./assets/docs/dokumentacija.md");
+        window.open("./assets/docs/dokumentacija.pdf");
     })
 })
