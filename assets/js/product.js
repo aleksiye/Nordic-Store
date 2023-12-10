@@ -50,7 +50,7 @@ function fetchProductDescription(descriptionId) {
                     <h2 class="max-w-xl mb-6 text-2xl font-bold md:text-4xl">
                         ${productObject.name}</h2>
                     <p class="inline-block mb-6 text-4xl font-bold text-gray-700">
-                        <span>${productObject.price}</span>
+                        <span>${productObject.price}€</span>
                     </p>
                     <p class="max-w-md text-gray-700">
                         ${description}
