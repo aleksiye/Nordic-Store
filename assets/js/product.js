@@ -1,16 +1,22 @@
 const productObject = JSON.parse(localStorage.getItem("storeItem"));
 
-function fetchProductDescription(descriptionId) {
-    return fetch('./assets/data/product-descriptions.json').then(response => {
-        if(!response.ok){ //if http response code outside of range 200-299 throws an error
-            throw new Error("Failure with fetching product descriptions");
-        }
-        console.log(response);
-        return response.json();
-    }).then(producDescriptionArray => producDescriptionArray[descriptionId].description).catch(error => {
-        console.error("Error fetching product descriptions: ", error);
-        throw error;
-    })
+async function fetchProductDescription(descriptionId) {
+    try{
+    const response = await fetch("./assets/data/product-descriptions.json");
+    if(!response.ok){
+        throw new Error(`Failure with fetching product descriptions, http request failed with response code: ${response.status}`);
+    }
+    
+    const json = await response.json(); // method of response interface, result is not json but JS object
+    
+    
+    const productDescription = json[descriptionId].description;
+ 
+    return productDescription; 
+} catch (error){
+    throw error;
+}
+
 }
 
  function printProduct(description){
@@ -94,6 +100,7 @@ function fetchProductDescription(descriptionId) {
  window.addEventListener("load", function(){
     fetchProductDescription(productObject.id).then(description => {printProduct(description)})
     .catch(error => {
-        console.error('Error: ',error);
+        printProduct("Failure fetching product description");
+        console.log('Error: ',error);
     });
  })
