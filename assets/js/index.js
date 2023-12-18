@@ -58,7 +58,7 @@ function attachLikeEvent(data){
 function viewProductHandler(event){
     event.preventDefault();
     localStorage.setItem("storeItem", JSON.stringify(storeItems[this.id.match(/\d+/)]));
-    window.open("../../product.html","_self");
+    window.open("./../../product.html","_self");
 
 }
 function attachViewProductEvent(data){
