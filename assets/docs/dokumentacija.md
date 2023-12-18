@@ -1834,3 +1834,27 @@ function fetchProductDescription(descriptionId) {
   ]
   
 ```
+
+# Naknadne Izmene
+
+funkcija fetchProductDescription refaktorisana na sledeci nacin
+
+```js
+async function fetchProductDescription(descriptionId) {
+    try{
+    const response = await fetch("./assets/data/product-descriptions.json");
+    if(!response.ok){
+        throw new Error(`Failure with fetching product descriptions, http request failed with response code: ${response.status}`);
+    }
+    
+    const json = await response.json(); // method of response interface, result is not json but JS object
+    
+    
+    const productDescription = json[descriptionId].description;
+ 
+    return productDescription; 
+} catch (error){
+    throw error;
+}
+}
+```

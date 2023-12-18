@@ -16,7 +16,6 @@ async function fetchProductDescription(descriptionId) {
 } catch (error){
     throw error;
 }
-
 }
 
  function printProduct(description){
